@@ -1,5 +1,6 @@
 # Triangle Code Analyzer
 
+
 <div align="center">
     <img src="static/logo.png" alt="Triangle Code Analyzer Logo" width="200"/>
     <h3>Güvenli Kod Analizi ve Zafiyet Tarama Aracı</h3>
