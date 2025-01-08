@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarama Geçmişi | Triangle Code Analyzer{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="history-section">
+        <div class="section-header">
+            <h1><i class="fas fa-history"></i> Tarama Geçmişi</h1>
+        </div>
+        
+        <div class="stats-overview">
+            <div class="stat-card critical">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scans|sum(attribute='critical_count') }}</span>
+                </div>
+                <h3>Critical Vulnerability</h3>
+            </div>
+            <div class="stat-card high">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scans|sum(attribute='high_count') }}</span>
+                </div>
+                <h3>High Vulnerability</h3>
+            </div>
+            <div class="stat-card medium">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scans|sum(attribute='medium_count') }}</span>
+                </div>
+                <h3>Medium Vulnerability</h3>
+            </div>
+            <div class="stat-card low">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scans|sum(attribute='low_count') }}</span>
+                </div>
+                <h3>Low Vulnerability</h3>
+            </div>
+        </div>
+        
+        {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if not scans %}
+        <div class="no-scans">
+            <i class="fas fa-info-circle"></i>
+            <p>Henüz tarama yapılmamış.</p>
+        </div>
+        {% endif %}
+        
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Dosya adı veya tarih ile ara...">
+            <i class="fas fa-search"></i>
+        </div>
+        
+        <div class="scans-list">
+            {% for scan in scans %}
+            <div class="scan-card" data-search="{{ scan.file_name }} {{ scan.scan_date }}">
+                <div class="scan-info">
+                    <div class="scan-header">
+                        <div class="scan-title">
+                            <h3>{{ scan.file_name }}</h3>
+                            <span class="scan-date"><i class="fas fa-calendar"></i> {{ scan.scan_date.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        <div class="vulnerability-counts">
+                            <span class="severity-badge severity-critical">
+                                <span class="count">{{ scan.critical_count or 0 }}</span> Kritik
+                            </span>
+                            <span class="severity-badge severity-high">
+                                <span class="count">{{ scan.high_count or 0 }}</span> Yüksek
+                            </span>
+                            <span class="severity-badge severity-medium">
+                                <span class="count">{{ scan.medium_count or 0 }}</span> Orta
+                            </span>
+                            <span class="severity-badge severity-low">
+                                <span class="count">{{ scan.low_count or 0 }}</span> Düşük
+                            </span>
+                        </div>
+                        <a href="{{ url_for('scan_detail', scan_id=scan.id) }}" class="btn-details">
+                            <i class="fas fa-search"></i>
+                            Detayları Gör
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Genel istatistik grafiği
+    const ctx = document.getElementById('overallStats').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Kritik', 'Yüksek', 'Orta', 'Düşük'],
+            datasets: [{
+                label: 'Toplam Zafiyet Sayıları',
+                data: [
+                    {{ scans|sum(attribute='critical_count') }},
+                    {{ scans|sum(attribute='high_count') }},
+                    {{ scans|sum(attribute='medium_count') }},
+                    {{ scans|sum(attribute='low_count') }}
+                ],
+                backgroundColor: [
+                    '#dc3545',
+                    '#fd7e14',
+                    '#ffc107',
+                    '#20c997'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Arama fonksiyonu
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const searchText = e.target.value.toLowerCase();
+        document.querySelectorAll('.scan-card').forEach(card => {
+            const searchData = card.dataset.search.toLowerCase();
+            card.style.display = searchData.includes(searchText) ? 'block' : 'none';
+        });
+    });
+</script>
+{% endblock %} 

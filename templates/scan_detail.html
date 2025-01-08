@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarama Detayı | Triangle Code Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="scan-detail-section">
+        <div class="section-header">
+            <a href="{{ url_for('scan_history') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Tarama Geçmişine Dön
+            </a>
+            <h1>
+                <i class="fas fa-search"></i> 
+                {{ scan.file_name }}
+            </h1>
+            <p class="scan-meta">
+                <span><i class="fas fa-calendar"></i> {{ scan.scan_date.strftime('%d.%m.%Y %H:%M') }}</span>
+                <span><i class="fas fa-user"></i> {{ scan.username }}</span>
+            </p>
+        </div>
+        
+        <div class="stats-overview">
+            <div class="stat-card critical">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scan.critical_count }}</span>
+                </div>
+                <h3>Critical Vulnerability</h3>
+            </div>
+            <div class="stat-card high">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scan.high_count }}</span>
+                </div>
+                <h3>High Vulnerability</h3>
+            </div>
+            <div class="stat-card medium">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scan.medium_count }}</span>
+                </div>
+                <h3>Medium Vulnerability</h3>
+            </div>
+            <div class="stat-card low">
+                <div class="stat-circle">
+                    <span class="stat-number">{{ scan.low_count }}</span>
+                </div>
+                <h3>Low Vulnerability</h3>
+            </div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Zafiyet adı veya açıklama ile ara...">
+            <i class="fas fa-search"></i>
+        </div>
+        
+        <div class="vulnerabilities-list">
+            {% for severity in ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'] %}
+                {% set severity_vulns = vulnerabilities|selectattr('severity', 'equalto', severity)|list %}
+                {% if severity_vulns %}
+                    <div class="severity-group">
+                        <h2 class="severity-title {{ severity|lower }}">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ {'CRITICAL': 'Kritik', 'HIGH': 'Yüksek', 'MEDIUM': 'Orta', 'LOW': 'Düşük'}[severity] }}
+                            Zafiyetler ({{ severity_vulns|length }})
+                        </h2>
+                        {% for vuln in severity_vulns %}
+                        <div class="vulnerability-item" data-search="{{ vuln.name }} {{ vuln.description }}">
+                            <div class="vuln-header" onclick="toggleVuln(this)">
+                                <div class="vuln-title">
+                                    <h3>
+                                        <i class="fas fa-bug"></i>
+                                        {{ vuln.name }}
+                                        {% if vuln.source == 'ai_analysis' %}
+                                        <span class="source-badge ai">AI</span>
+                                        {% endif %}
+                                    </h3>
+                                    <span class="file-info">{{ vuln.file_name }}{% if vuln.line_number %} - Satır: {{ vuln.line_number }}{% endif %}</span>
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="vuln-details hidden">
+                                <div class="detail-tabs">
+                                    <button class="tab-btn active" onclick="switchTab(this, 'details')">Detaylar</button>
+                                    {% if vuln.code_context %}
+                                    <button class="tab-btn" onclick="switchTab(this, 'code')">Kod</button>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="tab-content details-tab active">
+                                    <div class="detail-section">
+                                        <h4>Açıklama</h4>
+                                        <p>{{ vuln.description }}</p>
+                                    </div>
+                                    <div class="detail-section">
+                                        <h4>Çözüm Önerisi</h4>
+                                        <p>{{ vuln.solution }}</p>
+                                    </div>
+                                </div>
+                                
+                                {% if vuln.code_context %}
+                                <div class="tab-content code-tab">
+                                    <div class="code-block">
+                                        <pre><code>{% for line in vuln.code_context %}
+<span class="line-number">{{ line.line_number }}</span>{% if line.is_vulnerable %}<span class="vulnerable-line">{% endif %}{{ line.content }}{% if line.is_vulnerable %}</span>{% endif %}
+{% endfor %}</code></pre>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Arama fonksiyonu
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const searchText = e.target.value.toLowerCase();
+        document.querySelectorAll('.vulnerability-item').forEach(item => {
+            const searchData = item.dataset.search.toLowerCase();
+            item.style.display = searchData.includes(searchText) ? 'block' : 'none';
+        });
+    });
+
+    // Zafiyet detaylarını aç/kapat
+    function toggleVuln(element) {
+        const details = element.nextElementSibling;
+        const icon = element.querySelector('.fa-chevron-down');
+        details.classList.toggle('hidden');
+        icon.style.transform = details.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+</script>
+{% endblock %} 

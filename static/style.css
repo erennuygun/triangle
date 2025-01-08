@@ -1,0 +1,1229 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #2ecc71;
+    --warning-color: #f1c40f;
+    --danger-color: #e74c3c;
+    --light-bg: #f8f9fa;
+    --dark-bg: #2c3e50;
+    --text-color: #333;
+    --light-text: #fff;
+    --accent-color: #e74c3c;
+    --triangle-color: #3498db;
+    --triangle-shadow: rgba(52, 152, 219, 0.3);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+}
+
+.navbar {
+    background-color: var(--primary-color);
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-triangle {
+    width: 36px;
+    height: 36px;
+    position: relative;
+    transform: rotate(30deg);
+}
+
+.logo-triangle::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 31px solid var(--triangle-color);
+    filter: drop-shadow(0 2px 4px rgba(52, 152, 219, 0.3));
+}
+
+.logo-triangle::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 21px solid var(--primary-color);
+    top: 5px;
+    left: 6px;
+}
+
+.logo-triangle .inner-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid var(--accent-color);
+    top: 12px;
+    left: 12px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--light-text);
+    letter-spacing: 0.5px;
+}
+
+.logo i {
+    margin-right: 10px;
+    color: #3498db;
+    transform: rotate(180deg);
+    font-size: 1.8rem;
+}
+
+.nav-links a {
+    color: var(--light-text);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+.analysis-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.section-header h1 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.upload-section {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label[for="codeFile"] {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+label[for="codeFile"]:hover {
+    background-color: #2980b9;
+}
+
+.file-name {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+button {
+    background-color: var(--success-color);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #27ae60;
+}
+
+.loading {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--secondary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+.results {
+    margin-top: 2rem;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.results-meta {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.vulnerability {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-left: 4px solid var(--danger-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.vulnerability h3 {
+    color: var(--danger-color);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.vulnerability h3:before {
+    content: '\f071';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+.no-vulnerabilities {
+    padding: 1.5rem;
+    background-color: #e8f5e9;
+    border-left: 4px solid var(--success-color);
+    border-radius: 4px;
+}
+
+.footer {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 1rem 0;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.file-selected {
+    background-color: var(--success-color) !important;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+    .nav-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        margin: 0;
+        text-align: center;
+    }
+
+    .results-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .file-upload {
+        flex-direction: column;
+    }
+}
+
+.error-message {
+    padding: 1.5rem;
+    background-color: #fee;
+    border-left: 4px solid var(--danger-color);
+    border-radius: 4px;
+}
+
+.error-message h3 {
+    color: var(--danger-color);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.vuln-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.vuln-meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.source-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+.source-badge.ai {
+    background-color: #3498db;
+    color: white;
+}
+
+.source-badge.static {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.severity-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: white !important;
+}
+
+.severity-badge.severity-critical {
+    background-color: #dc3545 !important;
+}
+
+.severity-badge.severity-high {
+    background-color: #fd7e14 !important;
+}
+
+.severity-badge.severity-medium {
+    background-color: #ffc107 !important;
+}
+
+.severity-badge.severity-low {
+    background-color: #20c997 !important;
+}
+
+.locations {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.locations code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.locations ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.locations li {
+    margin-bottom: 0.5rem;
+}
+
+/* Login sayfası stilleri */
+.login-page {
+    background-color: var(--light-bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-header .logo-triangle {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+}
+
+.login-header .logo-triangle::before {
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 52px solid var(--triangle-color);
+}
+
+.login-header .logo-triangle::after {
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid var(--primary-color);
+    top: 8px;
+    left: 10px;
+}
+
+.login-header .logo-triangle .inner-triangle {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 17px solid var(--accent-color);
+    top: 20px;
+    left: 20px;
+}
+
+.login-header h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.login-header p {
+    color: #666;
+    margin: 0;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    padding: 0.8rem;
+    border: 2px solid #eee;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+.login-form button {
+    background: var(--secondary-color);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.3s;
+}
+
+.login-form button:hover {
+    background: #2980b9;
+}
+
+.error-message {
+    background: #fee;
+    color: #e74c3c;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Severity badge stilleri */
+.severity-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: white !important;
+}
+
+/* Badge arkaplan renkleri */
+.severity-badge.severity-critical {
+    background-color: #dc3545 !important;
+}
+
+.severity-badge.severity-high {
+    background-color: #fd7e14 !important;
+}
+
+.severity-badge.severity-medium {
+    background-color: #ffc107 !important;
+}
+
+.severity-badge.severity-low {
+    background-color: #20c997 !important;
+}
+
+/* Badge içindeki sayılar için stil */
+.severity-badge .count {
+    font-weight: bold;
+    margin-right: 0.25rem;
+    color: white !important;
+}
+
+/* Logout butonu */
+.logout-btn {
+    background-color: #dc3545;
+    color: white !important;
+}
+
+.logout-btn:hover {
+    background-color: #c82333 !important;
+}
+
+/* Tarama geçmişi stilleri */
+.history-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.search-bar {
+    position: relative;
+    margin: 2rem 0;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-bar i {
+    position: absolute;
+    right: 1rem;
+    color: #666;
+}
+
+.scan-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.scan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.scan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.scan-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.scan-title h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.scan-date {
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.vulnerability-counts {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.severity-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btn-details {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.btn-details:hover {
+    background-color: #34495e;
+}
+
+/* Severity badge renkleri */
+.severity-badge.severity-critical {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.severity-badge.severity-high {
+    background-color: rgba(253, 126, 20, 0.1);
+    color: #fd7e14;
+}
+
+.severity-badge.severity-medium {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.severity-badge.severity-low {
+    background-color: rgba(32, 201, 151, 0.1);
+    color: #20c997;
+}
+
+.stats-container {
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+/* Zafiyet grupları */
+.severity-group {
+    margin-bottom: 2rem;
+}
+
+.severity-title {
+    padding: 1rem;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.severity-title.critical {
+    background-color: #dc3545;
+}
+
+.severity-title.high {
+    background-color: #fd7e14;
+}
+
+.severity-title.medium {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.severity-title.low {
+    background-color: #20c997;
+}
+
+/* Zafiyet öğeleri */
+.vulnerability-item {
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.vuln-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+    transition: background-color 0.2s;
+}
+
+.vuln-header:hover {
+    background: #f8f9fa;
+}
+
+.vuln-title {
+    flex: 1;
+}
+
+.vuln-title h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.file-info {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.vuln-details {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    background: #f8f9fa;
+}
+
+.vuln-details.hidden {
+    display: none;
+}
+
+.detail-section {
+    margin-bottom: 1rem;
+}
+
+.detail-section:last-child {
+    margin-bottom: 0;
+}
+
+.detail-section h4 {
+    color: #666;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.code-block {
+    background: #2d3748;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.code-block pre {
+    margin: 0;
+}
+
+.code-block code {
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.fa-chevron-down {
+    transition: transform 0.3s;
+}
+
+/* İstatistik container'ı */
+.stats-container {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stats-overview {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    flex: 1;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    border: 8px solid;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.stat-card.critical .stat-circle {
+    border-color: #dc3545;
+}
+
+.stat-card.high .stat-circle {
+    border-color: #fd7e14;
+}
+
+.stat-card.medium .stat-circle {
+    border-color: #ffc107;
+}
+
+.stat-card.low .stat-circle {
+    border-color: #20c997;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.stat-card h3 {
+    margin: 0;
+    color: #444;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.severity-title.critical {
+    background-color: #dc3545;
+}
+
+/* Zafiyet badge'leri için */
+.severity-badge.severity-critical {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Badge içindeki sayılar için stil */
+.severity-badge .count {
+    font-weight: bold;
+    margin-right: 0.25rem;
+}
+
+/* Scan kartları için container */
+.scans-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Eski saydam stilleri kaldır */
+.severity-badge.severity-critical,
+.severity-badge.severity-high,
+.severity-badge.severity-medium,
+.severity-badge.severity-low {
+    background-color: transparent;
+}
+
+/* Dokümantasyon sayfası stilleri */
+.doc-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.doc-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.doc-card h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.severity-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.severity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.severity-item p {
+    margin: 0;
+}
+
+/* Hakkında sayfası stilleri */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.about-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.about-card h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tech-stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.tech-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.tech-item:hover {
+    transform: translateY(-5px);
+}
+
+.tech-item i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.tech-item span {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+/* Dashboard stilleri */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.summary-cards {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.dashboard-charts {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+/* Özet kartları */
+.summary-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+}
+
+.summary-card i {
+    font-size: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+}
+
+.total-scans i { background: #3498db; }
+.total-vulns i { background: #e74c3c; }
+.risk-score i { background: #2ecc71; }
+.last-scan i { background: #f1c40f; }
+
+/* Grafik konteynerları */
+.chart-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+/* Son taramalar ve kritik zafiyetler */
+.recent-scans, .critical-vulnerabilities {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.recent-scan-item, .critical-vuln-item {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.recent-scan-item:last-child,
+.critical-vuln-item:last-child {
+    border-bottom: none;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-charts {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Zafiyet detay sekmeleri */
+.detail-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: #666;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.tab-btn.active {
+    color: #3498db;
+    font-weight: 500;
+}
+
+.tab-btn.active:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #3498db;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Kod bloğu stilleri */
+.code-block {
+    background: #2d3748;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.code-block pre {
+    margin: 0;
+    counter-reset: line;
+}
+
+.line-number {
+    color: #718096;
+    padding-right: 1rem;
+    user-select: none;
+}
+
+.vulnerable-line {
+    background: rgba(231, 76, 60, 0.2);
+    display: block;
+}
+
+.code-block code {
+    color: #fff;
+}
+
+/* Üçgen animasyonu */
+@keyframes pulse {
+    0% { transform: rotate(180deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(180deg) scale(1); }
+}
+
+.logo i:hover {
+    animation: pulse 1s infinite;
+}
+
+/* Logo animasyonları */
+@keyframes float {
+    0%, 100% { transform: rotate(30deg) translateY(0); }
+    50% { transform: rotate(30deg) translateY(-3px); }
+}
+
+.logo:hover .logo-triangle::before {
+    animation: spin 1s ease-in-out;
+}
+
+@keyframes spin {
+    0% { transform: rotate(30deg); }
+    100% { transform: rotate(390deg); }
+}
+ 

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Dokümantasyon | Triangle Code Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="documentation-section">
+        <div class="section-header">
+            <h1><i class="fas fa-book"></i> Dokümantasyon</h1>
+            <p>Triangle Code Analyzer kullanım kılavuzu</p>
+        </div>
+        
+        <div class="doc-content">
+            <div class="doc-card">
+                <h2><i class="fas fa-upload"></i> Kod Yükleme</h2>
+                <p>Analiz edilecek kaynak kodunuzu yüklemek için:</p>
+                <ol>
+                    <li>Ana sayfada "Dosya Seç" butonuna tıklayın</li>
+                    <li>Analiz etmek istediğiniz dosyayı seçin</li>
+                    <li>"Analiz Et" butonuna tıklayın</li>
+                </ol>
+            </div>
+
+            <div class="doc-card">
+                <h2><i class="fas fa-shield-alt"></i> Güvenlik Analizi</h2>
+                <p>Sistem iki farklı analiz yöntemi kullanır:</p>
+                <ul>
+                    <li><strong>Statik Analiz:</strong> Önceden tanımlanmış güvenlik kurallarına göre kod analizi</li>
+                    <li><strong>AI Analiz:</strong> Yapay zeka destekli akıllı kod analizi</li>
+                </ul>
+            </div>
+
+            <div class="doc-card">
+                <h2><i class="fas fa-exclamation-triangle"></i> Zafiyet Seviyeleri</h2>
+                <div class="severity-levels">
+                    <div class="severity-item">
+                        <span class="severity-badge severity-critical">Kritik</span>
+                        <p>Uzaktan kod çalıştırma, SQL enjeksiyonu gibi kritik güvenlik açıkları</p>
+                    </div>
+                    <div class="severity-item">
+                        <span class="severity-badge severity-high">Yüksek</span>
+                        <p>XSS, CSRF gibi ciddi güvenlik açıkları</p>
+                    </div>
+                    <div class="severity-item">
+                        <span class="severity-badge severity-medium">Orta</span>
+                        <p>Güvenlik açığı potansiyeli olan ama istismarı zor durumlar</p>
+                    </div>
+                    <div class="severity-item">
+                        <span class="severity-badge severity-low">Düşük</span>
+                        <p>En iyi pratiklere uymayan ama düşük riskli durumlar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

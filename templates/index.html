@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Kod Analizi | Triangle Code Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="analysis-section">
+        <div class="section-header">
+            <h1><i class="fas fa-code"></i> Kod Güvenlik Analizi</h1>
+            <p>Kodunuzu yükleyin ve potansiyel güvenlik açıklarını tespit edin</p>
+        </div>
+        
+        <div class="upload-section">
+            <form id="uploadForm">
+                <div class="file-upload">
+                    <input type="file" id="codeFile" accept=".py,.js,.php,.java,.cpp,.cs,.txt,.zip">
+                    <label for="codeFile" id="fileLabel">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Dosya Seç (.py, .js, .php, .java, .cpp, .cs veya .zip)</span>
+                    </label>
+                    <span id="fileName" class="file-name"></span>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                    Analiz Et
+                </button>
+            </form>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p><i class="fas fa-cog fa-spin"></i> Güvenlik analizi yapılıyor...</p>
+        </div>
+
+        <div id="results" class="results hidden">
+            <div class="results-header">
+                <h2><i class="fas fa-clipboard-list"></i> Analiz Sonuçları</h2>
+                <div class="results-meta">
+                    <span id="scanTime"></span>
+                    <span id="fileInfo"></span>
+                </div>
+            </div>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %} 

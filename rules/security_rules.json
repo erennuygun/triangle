@@ -1,0 +1,196 @@
+{
+    "rules": [
+        {
+            "id": "SQL-INJ-001",
+            "name": "SQL Enjeksiyonu",
+            "patterns": [
+                "mysql_query\\s*\\(\\s*['\"].*?\\$",
+                "mysqli_query\\s*\\(\\s*['\"].*?\\$",
+                "\\$\\w+->query\\s*\\(\\s*['\"].*?\\$",
+                "execute\\s*\\(\\s*['\"].*?\\$",
+                "exec\\s*\\(\\s*['\"].*?\\$",
+                "SELECT.*FROM.*WHERE.*\\$",
+                "INSERT.*INTO.*VALUES.*\\$",
+                "UPDATE.*SET.*WHERE.*\\$",
+                "DELETE.*FROM.*WHERE.*\\$"
+            ],
+            "description": "SQL sorguları içinde doğrudan kullanıcı girdisi kullanılıyor. Bu, SQL enjeksiyon saldırılarına yol açabilir ve veritabanının tamamen ele geçirilmesine neden olabilir.",
+            "solution": "Parametreli sorgular (prepared statements) veya ORM kullanın. Girdileri escape edin ve doğrulayın.",
+            "severity": "CRITICAL",
+            "cvss_score": "9.8"
+        },
+        {
+            "id": "XSS-001",
+            "name": "Cross-Site Scripting (XSS)",
+            "patterns": [
+                "echo\\s+\\$_(?:GET|POST|REQUEST|COOKIE)",
+                "print\\s+\\$_(?:GET|POST|REQUEST|COOKIE)",
+                "innerHTML\\s*=",
+                "document\\.write\\s*\\(",
+                "\\$\\(.*\\)\\.html\\(",
+                "\\$\\(.*\\)\\.append\\(",
+                "eval\\(.*\\)",
+                "setTimeout\\(.*\\$",
+                "setInterval\\(.*\\$"
+            ],
+            "description": "Kullanıcı girdisi doğrudan çıktıya yazılıyor. Bu, XSS saldırılarına yol açabilir ve kullanıcı oturumlarının çalınmasına neden olabilir.",
+            "solution": "htmlspecialchars() veya benzeri fonksiyonlar kullanarak çıktıyı encode edin. Content Security Policy (CSP) uygulayın.",
+            "severity": "HIGH",
+            "cvss_score": "8.2"
+        },
+        {
+            "id": "RCE-001",
+            "name": "Uzaktan Kod Çalıştırma (RCE)",
+            "patterns": [
+                "eval\\s*\\(",
+                "assert\\s*\\(",
+                "preg_replace.*\\/e",
+                "create_function\\s*\\(",
+                "include\\s*\\$",
+                "require\\s*\\$",
+                "include_once\\s*\\$",
+                "require_once\\s*\\$",
+                "\\`.*\\$.*\\`",
+                "shell_exec\\s*\\("
+            ],
+            "description": "Uzaktan kod çalıştırma zafiyeti, saldırganın sunucu üzerinde keyfi kod çalıştırmasına izin verebilir.",
+            "solution": "Asla kullanıcı girdisini kod olarak çalıştırmayın. Whitelist yaklaşımı kullanın ve girdileri sıkı bir şekilde doğrulayın.",
+            "severity": "CRITICAL",
+            "cvss_score": "10.0"
+        },
+        {
+            "id": "CSRF-001",
+            "name": "CSRF Koruması Eksikliği",
+            "patterns": [
+                "form.*method\\s*=\\s*['\"]POST['\"](?!.*csrf)",
+                "\\$_POST(?!.*csrf)",
+                "fetch\\s*\\([^)]*method:\\s*['\"]POST['\"](?!.*csrf)",
+                "axios\\.post\\s*\\([^)]*(?!.*csrf)",
+                "\\.ajax\\s*\\({[^}]*type:\\s*['\"]POST['\"](?!.*csrf)"
+            ],
+            "description": "Form veya POST isteklerinde CSRF token kontrolü eksik. Bu, kullanıcının bilgisi dışında işlemler yapılmasına izin verebilir.",
+            "solution": "CSRF token sistemi ekleyin ve her form gönderiminde kontrol edin. SameSite cookie özelliğini kullanın.",
+            "severity": "MEDIUM",
+            "cvss_score": "6.5"
+        },
+        {
+            "id": "AUTH-001",
+            "name": "Zayıf Kimlik Doğrulama",
+            "patterns": [
+                "md5\\s*\\(",
+                "sha1\\s*\\(",
+                "password.*varchar\\s*\\(\\s*\\d{1,2}\\s*\\)",
+                "(?i)password\\s*=\\s*['\"][^'\"]+['\"]",
+                "base64_encode\\s*\\(.*password",
+                "crypt\\s*\\(",
+                "strcmp\\s*\\(.*password"
+            ],
+            "description": "Zayıf şifreleme algoritmaları veya açık metin şifreler kullanılıyor. Bu, şifrelerin kırılmasını kolaylaştırır.",
+            "solution": "Güçlü hash algoritmaları (bcrypt, Argon2) kullanın. Şifreleri asla açık metin olarak saklamayın. Güçlü şifre politikaları uygulayın.",
+            "severity": "CRITICAL",
+            "cvss_score": "9.1"
+        },
+        {
+            "id": "SSRF-001",
+            "name": "Server-Side Request Forgery",
+            "patterns": [
+                "curl\\s*\\(.*\\$",
+                "file_get_contents\\s*\\(.*\\$",
+                "fsockopen\\s*\\(.*\\$",
+                "\\$_GET.*\\.amazonaws\\.com",
+                "\\$_POST.*\\.amazonaws\\.com"
+            ],
+            "description": "Sunucu tarafında kullanıcı kontrollü URL'lere istek yapılıyor. Bu, iç ağdaki sistemlere erişim sağlayabilir.",
+            "solution": "URL'leri whitelist ile kontrol edin. İç ağ adreslerine erişimi engelleyin. URL'leri doğrulayın.",
+            "severity": "HIGH",
+            "cvss_score": "8.8"
+        },
+        {
+            "id": "IDOR-001",
+            "name": "Güvensiz Doğrudan Nesne Referansları",
+            "patterns": [
+                "SELECT.*WHERE.*id\\s*=\\s*\\$",
+                "SELECT.*WHERE.*user_id\\s*=\\s*\\$",
+                "findById\\s*\\(.*\\$",
+                "getUser\\s*\\(.*\\$"
+            ],
+            "description": "Kullanıcı girdisi ile doğrudan nesne erişimi yapılıyor. Bu, yetkisiz veri erişimine neden olabilir.",
+            "solution": "Kullanıcı yetkilerini her nesne erişiminde kontrol edin. Dolaylı referanslar kullanın.",
+            "severity": "HIGH",
+            "cvss_score": "7.7"
+        },
+        {
+            "id": "XXE-001",
+            "name": "XML External Entity (XXE)",
+            "patterns": [
+                "simplexml_load_string\\s*\\(",
+                "DOMDocument",
+                "\\.parseXml\\s*\\(",
+                "xml_parse\\s*\\(",
+                "\\$_POST.*\\.xml"
+            ],
+            "description": "XML işleme sırasında dış varlıklar etkin. Bu, dosya okuma ve sunucu tarafı isteklere yol açabilir.",
+            "solution": "XML işlemede dış varlıkları devre dışı bırakın. libxml_disable_entity_loader(true) kullanın.",
+            "severity": "CRITICAL",
+            "cvss_score": "9.1"
+        },
+        {
+            "id": "DESERIALIZATION-001",
+            "name": "Güvensiz Deserializasyon",
+            "patterns": [
+                "unserialize\\s*\\(",
+                "ObjectInputStream",
+                "fromJson\\s*\\(",
+                "yaml\\.load\\s*\\(",
+                "pickle\\.loads\\s*\\("
+            ],
+            "description": "Güvenilmeyen veriler deserialize ediliyor. Bu, uzaktan kod çalıştırmaya yol açabilir.",
+            "solution": "JSON gibi güvenli formatlar kullanın. Deserializasyon öncesi veriyi doğrulayın.",
+            "severity": "CRITICAL",
+            "cvss_score": "9.8"
+        },
+        {
+            "id": "OPEN-REDIRECT-001",
+            "name": "Açık Yönlendirme",
+            "patterns": [
+                "header\\s*\\(['\"]Location:\\s*\\$",
+                "redirect\\s*\\(.*\\$",
+                "window\\.location.*\\$",
+                "response\\.redirect\\s*\\(.*\\$"
+            ],
+            "description": "Kullanıcı kontrollü yönlendirmeler phishing saldırılarına yol açabilir.",
+            "solution": "Yönlendirme URL'lerini whitelist ile kontrol edin. Tam URL yerine path kullanın.",
+            "severity": "MEDIUM",
+            "cvss_score": "6.1"
+        },
+        {
+            "id": "FILE-INCLUSION-001",
+            "name": "Dosya İçerme Zafiyeti",
+            "patterns": [
+                "include.*\\$_GET",
+                "require.*\\$_GET",
+                "include_once.*\\$_POST",
+                "require_once.*\\$_POST"
+            ],
+            "description": "Kullanıcı girdisi ile dosya içerme yapılıyor. Bu, uzaktan kod çalıştırmaya yol açabilir.",
+            "solution": "Dosya içerme işlemlerinde sabit yollar kullanın. Kullanıcı girdisini asla dosya yolu olarak kullanmayın.",
+            "severity": "CRITICAL",
+            "cvss_score": "9.8"
+        },
+        {
+            "id": "DOS-001",
+            "name": "Hizmet Reddi (DoS) Zafiyeti",
+            "patterns": [
+                "sleep\\s*\\(.*\\$",
+                "usleep\\s*\\(.*\\$",
+                "while\\s*\\(.*true",
+                "for\\s*\\(.*\\$.*\\)",
+                "preg_match\\s*\\(.*\\+.*\\)"
+            ],
+            "description": "Kullanıcı girdisi ile performans etkileyici işlemler yapılıyor. Bu, DoS saldırılarına yol açabilir.",
+            "solution": "İşlem sürelerini sınırlayın. Rate limiting uygulayın. Regex ve döngülerde güvenlik önlemleri alın.",
+            "severity": "HIGH",
+            "cvss_score": "7.5"
+        }
+    ]
+} 

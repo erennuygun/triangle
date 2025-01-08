@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Triangle Code Analyzer{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-section">
+        <div class="section-header">
+            <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+            <p>Güvenlik Analiz Özeti</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Özet Kartları -->
+            <div class="summary-cards">
+                <div class="summary-card total-scans">
+                    <i class="fas fa-search"></i>
+                    <div class="card-content">
+                        <h3>Toplam Tarama</h3>
+                        <span class="number">{{ total_scans }}</span>
+                    </div>
+                </div>
+                <div class="summary-card total-vulns">
+                    <i class="fas fa-bug"></i>
+                    <div class="card-content">
+                        <h3>Toplam Zafiyet</h3>
+                        <span class="number">{{ total_vulnerabilities }}</span>
+                    </div>
+                </div>
+                <div class="summary-card risk-score">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="card-content">
+                        <h3>Risk Skoru</h3>
+                        <span class="number">{{ risk_score }}/100</span>
+                    </div>
+                </div>
+                <div class="summary-card last-scan">
+                    <i class="fas fa-clock"></i>
+                    <div class="card-content">
+                        <h3>Son Tarama</h3>
+                        <span class="date">{{ last_scan_date }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafik Bölümü -->
+            <div class="dashboard-charts">
+                <div class="chart-container">
+                    <h3>Zafiyet Dağılımı</h3>
+                    <canvas id="vulnerabilityChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Trend Analizi</h3>
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Son Taramalar -->
+            <div class="recent-scans">
+                <h3>Son Taramalar</h3>
+                <div class="recent-scans-list">
+                    {% for scan in recent_scans %}
+                    <div class="recent-scan-item">
+                        <div class="scan-info">
+                            <h4>{{ scan.file_name }}</h4>
+                            <span class="scan-date">{{ scan.scan_date.strftime('%d.%m.%Y %H:%M') if scan.scan_date else 'Tarih yok' }}</span>
+                        </div>
+                        <div class="scan-stats">
+                            <span class="severity-badge severity-critical">{{ scan.critical_count or 0 }}</span>
+                            <span class="severity-badge severity-high">{{ scan.high_count or 0 }}</span>
+                            <span class="severity-badge severity-medium">{{ scan.medium_count or 0 }}</span>
+                            <span class="severity-badge severity-low">{{ scan.low_count or 0 }}</span>
+                        </div>
+                        <a href="{{ url_for('scan_detail', scan_id=scan.id) }}" class="btn-details">
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- En Kritik Zafiyetler -->
+            <div class="critical-vulnerabilities">
+                <h3>Kritik Zafiyetler</h3>
+                <div class="critical-vulns-list">
+                    {% for vuln in critical_vulnerabilities %}
+                    <div class="critical-vuln-item">
+                        <div class="vuln-info">
+                            <h4>
+                                {{ vuln.name }}
+                                {% if vuln.source == 'ai_analysis' %}
+                                <span class="source-badge ai">AI</span>
+                                {% endif %}
+                            </h4>
+                            <p>{{ vuln.description }}</p>
+                        </div>
+                        <div class="vuln-meta">
+                            <span class="file-name">{{ vuln.file_name }}</span>
+                            <span class="severity-badge severity-critical">Kritik</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Zafiyet Dağılımı Grafiği
+    const vulnCtx = document.getElementById('vulnerabilityChart').getContext('2d');
+    new Chart(vulnCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Kritik', 'Yüksek', 'Orta', 'Düşük'],
+            datasets: [{
+                data: [
+                    {{ vuln_stats.critical }},
+                    {{ vuln_stats.high }},
+                    {{ vuln_stats.medium }},
+                    {{ vuln_stats.low }}
+                ],
+                backgroundColor: ['#dc3545', '#fd7e14', '#ffc107', '#20c997']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Trend Analizi Grafiği
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: {{ trend_dates|tojson }},
+            datasets: [{
+                label: 'Zafiyetler',
+                data: {{ trend_counts|tojson }},
+                borderColor: '#3498db',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %} 
