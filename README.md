@@ -1,9 +1,6 @@
 # Triangle Code Analyzer
 
-
-<div align="center">
-    <h3>Güvenli Kod Analizi ve Zafiyet Tarama Aracı</h3>
-</div>
+<h3>Güvenli Kod Analizi ve Zafiyet Tarama Aracı</h3>
 
 ## 🔍 Özellikler
 
